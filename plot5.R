@@ -1,0 +1,28 @@
+NEI <- readRDS("summarySCC_PM25.rds")
+SCC <- readRDS("Source_Classification_Code.rds")
+#str(NEI)
+#unique(NEI$type)
+#unique(NEI$year)
+typ = unique(NEI$type)
+yrs = unique(NEI$year)
+NEI$year = factor(NEI$year,levels=yrs)
+NEI$type = factor(NEI$type,levels=typ)
+#str(NEI)
+scc = unique(NEI$SCC)
+#head(scc)
+NEI$SCC = factor(NEI$SCC,levels=scc)
+#length(scc)
+fp = unique(NEI$fips)
+#length(fp)
+NEI$fips = factor(NEI$fips,levels=fp)
+#str(NEI)
+
+mv = which(NEI$type=="ON-ROAD")
+motor_vehicle_data = NEI[mv,]
+
+mv_total = aggregate(Emissions~year,data=motor_vehicle_data,FUN=sum)
+mv_total[[2]] = mv_total[[2]]/1000
+barplot(mv_total[[2]],names.arg=mv_total[[1]],main="PM2.5 emission from motor-vehicle sources",ylab="PM2.5 Emissions in kilo tons",xlab="Years",col = c("red","green","blue","gray"))
+dev.copy(png,'plot5.png')
+dev.off()
+graphics.off()
