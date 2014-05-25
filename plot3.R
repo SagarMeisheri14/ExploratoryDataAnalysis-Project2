@@ -27,7 +27,7 @@ baltimore_agg2 = aggregate(Emissions~year+type,data=baltimore,FUN=sum)
 baltimore_agg2[[2]] = baltimore_agg2[[2]]/1000
 
 
-ggplot(baltimore_agg2,aes(year,Emissions,fill=type))+geom_bar(stat="identity")+facet_wrap(~type)
+ggplot(baltimore_agg2,aes(year,Emissions,fill=type))+geom_bar(stat="identity")+facet_wrap(~type)+ylab("Emission in kilo tons")
 dev.copy(png,'plot3.png')
 dev.off()
 graphics.off()
